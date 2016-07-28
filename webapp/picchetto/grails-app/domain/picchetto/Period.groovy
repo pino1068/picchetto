@@ -5,7 +5,7 @@ import time.Interval
 
 @ToString
 class Period {
-	Date fromDate, toDate
+	Date fromDate = new Date(), toDate=fromDate
 	String status = "open"
 	Person person
 	Double price
@@ -18,6 +18,8 @@ class Period {
 	Interval getInterval(){
 		new Interval(from:fromDate, to:toDate)
 	}
+	
+	static transients = [ "interval"]
 	
 	static constraints = {
 		id()

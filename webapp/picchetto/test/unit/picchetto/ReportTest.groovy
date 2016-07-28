@@ -19,7 +19,7 @@ class ReportTest {
 	public void empty() {
 		Person enrico = new Person(name:"enrico").save()
 		
-		def report = new PoepleReport(period:2016.jan)
+		def report = new PeopleReport(period:2016.jan)
 		
 		assertEquals 0, report.all.size()
 	}
@@ -39,7 +39,7 @@ class ReportTest {
 	public void oneRecordReport() {
 		Person enrico = new Person(name:"enrico").save()
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
-		def report = new PoepleReport(period:2016.jan)
+		def report = new PeopleReport(period:2016.jan)
 		
 		assertEquals 1, report.all.size()
 		def first = report.all.first()

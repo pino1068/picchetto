@@ -2,7 +2,7 @@ package picchetto
 
 import time.Interval
 
-class PoepleReport {
+class PeopleReport {
 	Interval period
 	
 	def getAll(){

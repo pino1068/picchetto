@@ -21,4 +21,8 @@ class PersonReport {
 	def getWeekendDays(){
 		reportInterval.intersect(person.periods*.interval)*.weekendDays.flatten()
 	}
+	
+	double getTotal(){
+		(weekdays.size()*25) + (weekendDays.size())*50
+	}
 }
