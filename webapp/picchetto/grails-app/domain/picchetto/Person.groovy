@@ -9,7 +9,6 @@ class Person {
 	}
 	
 	def getPeriods(){
-		println Period.findAllByPerson(this)
 		Period.findAllByPerson(this)
 	}
 	

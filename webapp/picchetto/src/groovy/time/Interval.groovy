@@ -1,7 +1,12 @@
 package time
 
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString;
+
+@EqualsAndHashCode
+@ToString
 class Interval {
-	Date from, to
+	Date from = new Date(), to = from
 	
 	def getWeekdays(){
 		days.findAll{it.weekDay}
@@ -12,8 +17,10 @@ class Interval {
 	}
 	
 	def getDays(){
-		def min = to.time < from.time? to : from
-		def items = 0l..(daysCount-1l)
+		if(empty)
+			return []
+		def min = min(from, to)
+		def items = 0..daysCount
 		items.collect{new Date(min.time + (MILLISECS_IN_DAY*it))}
 	}
 	
@@ -28,9 +35,44 @@ class Interval {
 		cal.getTime();
 	}
 	
-	private int getDaysCount(){
+	def intersect(Interval other){
+		def result = new Interval(
+			from: 	max(from, other.from),
+			to: 	min(to, other.to))
+		result.positive()? result : empty()
+	}
+	
+	def intersect(others){
+		others.collect{intersect(it)}
+	}
+	
+	boolean positive(){
+		to.time >= from.time
+	}
+	
+	def min(Date one, Date other){
+		one.time < other.time? one : other
+	}
+	
+	def max(Date one, Date other){
+		one.time < other.time? other : one 
+	}
+	
+	def swap(){
+		new Interval(from:to, to:from)
+	}
+	
+	static empty(){
+		new Interval()
+	}
+	
+	boolean isEmpty(){
+		to.time == from.time
+	}
+	
+	private long getDaysCount(){
 		def diff = to.time - from.time
-		Math.abs(diff / MILLISECS_IN_DAY) + 1
+		Math.abs(diff / MILLISECS_IN_DAY)
 	}
 
 	static final MILLISECS_IN_DAY = 1000*60*60*24

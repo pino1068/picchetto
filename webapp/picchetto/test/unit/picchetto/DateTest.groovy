@@ -2,10 +2,10 @@ package picchetto;
 
 import java.text.DateFormat
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.Before
 import org.junit.Test
+
+import time.Interval
 
 
 class DateTest {
@@ -47,7 +47,26 @@ class DateTest {
 		assertEquals 1, "02.01.2016".date.until("02.01.2016").days.size()
 		assertEquals 1, "02.01.2016".until("02.01.2016").days.size()
 		assertEquals 2, "02.01.2016".until("03.01.2016").days.size()
-		assertEquals 2, "02.01.2016".until("1.01.2016").days.size()
+		
+		assertEquals 2, "1.01.2016".until("02.01.2016").days.size()
+		assertEquals 1, "02.01.2016".until("1.01.2016").days.size()
+	}
+	
+	@Test
+	public void positive() {
+		assertTrue "02.01.2016".until("03.01.2016").positive()
+		assertFalse "02.01.2016".until("1.01.2016").positive()
+	}
+	
+	@Test
+	public void swap() {
+		assertFalse "02.01.2016".until("03.01.2016").swap().positive()
+		assertTrue "04.01.2016".until("1.01.2016").swap().positive()
+	}
+	
+	@Test
+	public void empty() {
+		assertEquals 0, Interval.empty().days.size()
 	}
 	
 	@Test
@@ -94,4 +113,33 @@ class DateTest {
 		assertEquals "01.01.2016".date, range.from
 		assertEquals 31, range.days.size()
 	}
+	
+	@Test
+	public void intersect() {
+		def jan = 2016.jan
+		def feb = 2016.feb
+		
+		def within = "01.01.2016".until("10.01.2016")
+		assertEquals within, jan.intersect(within)
+		
+		def out = "01.02.2016".until("10.02.2016")
+		assertEquals 0, jan.intersect(out).days.size()
+		
+		def partial = "20.01.2016".until("10.02.2016")
+		assertEquals 10, feb.intersect(partial).days.size()
+	}
+	
+	@Test
+	public void intersectMore() {
+		def within = "02.01.2016".until("10.01.2016")
+		def out = "01.02.2016".until("10.02.2016")
+		def partial = "20.12.2015".until("5.1.2016")
+		
+		def intersections = 2016.jan.intersect([within, out, partial])
+		def sizes = [9,0,5]
+		assertEquals sizes, intersections*.days*.size()
+		def weekdays = [5,0,3]
+		assertEquals weekdays, intersections*.weekdays*.size()
+	}
+
 }

@@ -21,12 +21,18 @@ class MetaProgram {
 		Date.metaClass.getSimpleFormat = {
 			delegate.simpleFormat()
 		}
+		Date.metaClass.startOfDay = {
+			getStartOfDay(delegate)
+		}
+		Date.metaClass.endOfDay = {
+			getEndOfDay(delegate)
+		}
 		String.metaClass.getDate = {
-			def formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
-			def date = formatter.parse(delegate+" 00:00:00")
+			def formatter = new SimpleDateFormat("dd.MM.yyyy")
+			def date = formatter.parse(delegate)
 		}
 		Date.metaClass.until = { String to ->
-			new Interval(from: delegate, to:to.date)
+			new Interval(from: delegate.startOfDay(), to:to.date.endOfDay())
 		}
 		String.metaClass.until = { String to ->
 			delegate.date.until(to)
@@ -35,7 +41,7 @@ class MetaProgram {
 			delegate.date.month
 		}
 		Date.metaClass.getMonth = { 
-				new Interval(from: delegate).untilEndOfMonth()
+			new Interval(from: delegate).untilEndOfMonth()
 		}
 		Integer.metaClass.getJan = {  ("1.1."+delegate).month }
 		Integer.metaClass.getFeb = {  ("1.2."+delegate).month }
@@ -49,39 +55,26 @@ class MetaProgram {
 		Integer.metaClass.getOct = {  ("1.10."+delegate).month }
 		Integer.metaClass.getNov = {  ("1.11."+delegate).month }
 		Integer.metaClass.getDec = {  ("1.12."+delegate).month }
-//		java.lang.Integer.metaClass.static.feb = { int year ->
-//			return new Day(day:delegate, month: 2, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.mar = { int year ->
-//			return new Day(day:delegate, month: 3, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.apr = { int year ->
-//			return new Day(day:delegate, month: 4, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.may = { int year ->
-//			return new Day(day:delegate, month: 5, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.june = { int year ->
-//			return new Day(day:delegate, month: 6, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.july = { int year ->
-//			return new Day(day:delegate, month: 7, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.aug = { int year ->
-//			return new Day(day:delegate, month: 8, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.sept = { int year ->
-//			return new Day(day:delegate, month: 9, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.oct = { int year ->
-//			return new Day(day:delegate, month: 10, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.nov = { int year ->
-//			return new Day(day:delegate, month: 11, year: year)
-//		}
-//		java.lang.Integer.metaClass.static.dec = { int year ->
-//			return new Day(day:delegate, month: 12, year: year)
-//		}
+	}
+	
+	static Date getStartOfDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 1);
+		return calendar.getTime();
+	}
+
+	static Date getEndOfDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		calendar.set(Calendar.MILLISECOND, 998);
+		return calendar.getTime();
 	}
 
 }

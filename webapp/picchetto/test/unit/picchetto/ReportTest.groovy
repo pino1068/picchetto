@@ -27,31 +27,26 @@ class ReportTest {
 	@Test
 	public void personPeriods() {
 		Person enrico = new Person(name:"enrico").save()
-		new Period(person: enrico, range:"1.1.2016".until("10.1.2016")).save()
+		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		assertEquals 1, enrico.periods.size()
 		def period = enrico.periods.first()
 		
-		assertEquals "1.1.2016".date, period.fromDate
-		assertEquals "10.1.2016".date, period.toDate
+		assertEquals "1.1.2016".date.simpleFormat, period.fromDate.simpleFormat
+		assertEquals "10.1.2016".date.simpleFormat, period.toDate.simpleFormat
 	}
 	
 	@Test
 	public void oneRecordReport() {
 		Person enrico = new Person(name:"enrico").save()
-		new Period(person: enrico, range:"1.1.2016".until("10.1.2016")).save()
-		assertEquals 1, enrico.periods.size()
-		assertEquals "1.1.2016".date, enrico.periods.first().fromDate
-		assertEquals "10.1.2016".date, enrico.periods.first().toDate
+		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		def report = new PoepleReport(period:2016.jan)
 		
 		assertEquals 1, report.all.size()
 		def first = report.all.first()
 		
 		assertEquals "enrico", first.name
-		assertEquals 1, enrico.periods.size()
-//		println enrico.periods
-//		assertEquals 6, first.weekdays
-//		assertEquals 0, first.holidays
-//		assertEquals 4, first.weekendDays
+		assertEquals 6, first.weekdays.size()
+		assertEquals 0, first.holidays.size()
+		assertEquals 4, first.weekendDays.size()
 	}
 }

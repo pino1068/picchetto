@@ -4,13 +4,21 @@ import time.Interval
 
 class PersonReport {
 	Person person
-	Interval period
+	Interval reportInterval
 	
 	String getName(){
 		person?.name
 	}
 	
-	int getWeekdays(){
-		
+	def getWeekdays(){
+		reportInterval.intersect(person.periods*.interval)*.weekdays.flatten()
+	}
+	
+	def getHolidays(){
+		[]
+	}
+	
+	def getWeekendDays(){
+		reportInterval.intersect(person.periods*.interval)*.weekendDays.flatten()
 	}
 }

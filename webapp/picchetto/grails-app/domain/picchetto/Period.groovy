@@ -10,9 +10,13 @@ class Period {
 	Person person
 	Double price
 	
-	void setRange(Interval range){
+	void setInterval(Interval range){
 		fromDate = range.from
 		toDate = range.to
+	}
+	
+	Interval getInterval(){
+		new Interval(from:fromDate, to:toDate)
 	}
 	
 	static constraints = {
