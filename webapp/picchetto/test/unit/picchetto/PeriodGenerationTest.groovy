@@ -1,14 +1,12 @@
 
 package picchetto;
 
-import grails.test.mixin.*
-
 import org.junit.Before
 import org.junit.Test
 
 
 @Mock([Person, Period])
-class CoreTest {
+class PeriodGenerationTest {
 	
 	@Before
 	void setup(){
@@ -20,11 +18,11 @@ class CoreTest {
 		Person enrico = new Person(name:"enrico").save()
 		Person matteo = new Person(name:"matteo").save()
 		
-		println Person.random1()
-		println Person.random1()
-		println Person.random1()
-		println Person.random1()
-		println Person.random1()
+		println Person.random()
+		println Person.random()
+		println Person.random()
+		println Person.random()
+		println Person.random()
 	}
 	
 	@Test
@@ -33,6 +31,17 @@ class CoreTest {
 		
 		new PeriodsGenerator(range:2016.year).generate()
 		
+		assertEquals 53, Period.all.size()
+		assertEquals enrico, Period.all.first().person
+	}
+	
+	@Test
+	public void doubleGeneration() {
+		Person enrico = new Person(name:"enrico").save()
+				
+		new PeriodsGenerator(range:2016.year).generate()
+		new PeriodsGenerator(range:2016.year).generate()
+			
 		assertEquals 53, Period.all.size()
 		assertEquals enrico, Period.all.first().person
 	}

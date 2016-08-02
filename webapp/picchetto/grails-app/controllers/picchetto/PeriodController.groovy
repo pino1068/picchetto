@@ -18,7 +18,7 @@ class PeriodController {
 	
 	def generate(){
 		new PeriodsGenerator(range: params.year.year).generate()
-		redirect(action: "index")
+		redirect(action: "search")
 	}
 	
 	def search(){}

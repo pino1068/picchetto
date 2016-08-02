@@ -12,7 +12,7 @@ class Person {
 		Period.findAllByPerson(this)
 	}
 	
-	static Person random1(){
+	static Person random(){
 		Person.get(new Random().nextInt(Person.count())+1)
 	}
 	

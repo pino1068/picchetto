@@ -22,6 +22,12 @@ class Period {
 		new Interval(from:fromDate, to:toDate)
 	}
 	
+	static def existsByInterval(interval){
+		Period.createCriteria().count {
+			eq("fromDate", interval.from)
+			eq("toDate", interval.to)
+		} > 0
+	}
 	static def findAllByParams(params){
 		Period.createCriteria().listDistinct {
 			List people = Person.findAllByNameIlike("%$params.person%")

@@ -7,7 +7,8 @@ class PeriodsGenerator {
 	
 	def generate(){
 		range.weeks.collect{
-			new Period(interval:it, person:Person.random1()).save()
+			if(! Period.existsByInterval(it))
+				new Period(interval:it, person:Person.random()).save()
 		}
 	}
 }

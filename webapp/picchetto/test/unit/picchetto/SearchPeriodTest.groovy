@@ -9,7 +9,7 @@ import org.junit.Test
 
 @TestFor(PeriodController)
 @Mock([Person, Period])
-class PeriodTest {
+class SearchPeriodTest {
 	
 	@Before
 	void setup(){
