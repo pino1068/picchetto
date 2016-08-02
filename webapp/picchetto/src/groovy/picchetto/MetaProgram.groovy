@@ -15,8 +15,7 @@ class MetaProgram {
 			!delegate.weekend
 		}
 		Date.metaClass.simpleFormat = {
-			def formatter = new SimpleDateFormat("dd.MM.yyyy")
-			formatter.format(delegate)
+			new SimpleDateFormat("dd.MM.yyyy").format(delegate)
 		}
 		Date.metaClass.getSimpleFormat = {
 			delegate.simpleFormat()
@@ -28,17 +27,25 @@ class MetaProgram {
 			getEndOfDay(delegate)
 		}
 		String.metaClass.getDate = {
-			def formatter = new SimpleDateFormat("dd.MM.yyyy")
-			def date = formatter.parse(delegate)
+			new SimpleDateFormat("dd.MM.yyyy").parse(delegate)
 		}
 		Date.metaClass.until = { String to ->
 			new Interval(from: delegate.startOfDay(), to:to.date.endOfDay())
+		}
+		Date.metaClass.isSunday = { 	
+			delegate[DAY_OF_WEEK] == SUNDAY
 		}
 		String.metaClass.until = { String to ->
 			delegate.date.until(to)
 		}
 		String.metaClass.getMonth = { 
 			delegate.date.month
+		}
+		String.metaClass.getYear = { 
+				("1.1."+delegate).until("31.12."+delegate)
+		}
+		Integer.metaClass.getYear = { 
+				("1.1."+delegate).until("31.12."+delegate)
 		}
 		Date.metaClass.getMonth = { 
 			new Interval(from: delegate).untilEndOfMonth()
@@ -55,6 +62,45 @@ class MetaProgram {
 		Integer.metaClass.getOct = {  ("1.10."+delegate).month }
 		Integer.metaClass.getNov = {  ("1.11."+delegate).month }
 		Integer.metaClass.getDec = {  ("1.12."+delegate).month }
+		
+		
+		java.lang.Integer.metaClass.jan = { int year ->
+			(""+delegate+".1."+year).date
+		}
+//		java.lang.Integer.metaClass.feb = { int year ->
+//			(""+delegate+".2."+year).date
+//		}
+//		java.lang.Integer.metaClass.mar = { int year ->
+//			(""+delegate+".3."+year).date
+//		}
+//		java.lang.Integer.metaClass.apr = { int year ->
+//			(""+delegate+".4."+year).date
+//		}
+//		java.lang.Integer.metaClass.may = { int year ->
+//			(""+delegate+".5."+year).date
+//		}
+//		java.lang.Integer.metaClass.june = { int year ->
+//			(""+delegate+".6."+year).date
+//		}
+//		java.lang.Integer.metaClass.july = { int year ->
+//			(""+delegate+".7."+year).date
+//		}
+//		java.lang.Integer.metaClass.aug = { int year ->
+//			(""+delegate+".8."+year).date
+//		}
+//		java.lang.Integer.metaClass.sept = { int year ->
+//			(""+delegate+".9."+year).date
+//		}
+//		java.lang.Integer.metaClass.oct = { int year ->
+//			(""+delegate+".10."+year).date
+//		}
+//		java.lang.Integer.metaClass.nov = { int year ->
+//			(""+delegate+".11."+year).date
+//		}
+		java.lang.Integer.metaClass.dec = { int year ->
+			(""+delegate+".12."+year).date
+		}
+		
 	}
 	
 	static Date getStartOfDay(Date date) {

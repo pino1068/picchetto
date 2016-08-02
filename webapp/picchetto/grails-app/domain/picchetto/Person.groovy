@@ -12,6 +12,10 @@ class Person {
 		Period.findAllByPerson(this)
 	}
 	
+	static Person random1(){
+		Person.get(new Random().nextInt(Person.count())+1)
+	}
+	
     static constraints = {
     }
 }

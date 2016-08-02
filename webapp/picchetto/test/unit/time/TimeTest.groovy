@@ -1,14 +1,15 @@
-package picchetto;
+package time;
 
 import java.text.DateFormat
 
 import org.junit.Before
 import org.junit.Test
 
+import picchetto.MetaProgram;
 import time.Interval
 
 
-class DateTest {
+class TimeTest {
 	
 	@Before
 	void setup(){
@@ -141,5 +142,22 @@ class DateTest {
 		def weekdays = [5,0,3]
 		assertEquals weekdays, intersections*.weekdays*.size()
 	}
+	
+	@Test
+	public void createYear() {
+		assertEquals 366, 2016.year.days.size()
+	}
+	
+	@Test
+	public void isSunday() {
+		assertFalse "1.1.2016".date.sunday
+		assertTrue "3.1.2016".date.sunday
+	}
 
+	@Test
+	public void generateWeeks() {
+		assertEquals 53, 2016.year.weeks.size()
+		assertEquals 1.jan(2016).time, 2016.year.weeks.first().from.time - 1
+		assertEquals 31.dec(2016).time, 2016.year.weeks.last().to.time - 1
+	}
 }

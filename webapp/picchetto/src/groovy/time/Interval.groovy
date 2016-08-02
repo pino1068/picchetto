@@ -62,6 +62,25 @@ class Interval {
 		new Interval(from:to, to:from)
 	}
 	
+	def getWeeks(){
+		split{ day -> day.sunday}
+	}
+
+	private def split(Closure rule) {
+		def ranges = []
+		def currentDays = []
+		days.each{
+			if(rule(it)){
+				ranges << new Interval(from:currentDays.empty?it:currentDays.first(), to:it)
+				currentDays.clear()
+			}else
+				currentDays << it
+		}
+		if(!currentDays.empty)
+			ranges <<  new Interval(from:currentDays.first(), to:currentDays.last())
+		ranges
+	}
+	
 	static empty(){
 		new Interval()
 	}

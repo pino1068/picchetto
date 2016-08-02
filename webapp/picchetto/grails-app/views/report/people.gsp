@@ -1,3 +1,4 @@
+<%@ page contentType="text/html"%>
 <html>
 <head>
 
@@ -191,6 +192,10 @@ h2 {
 		<h1>Report "picchetto"</h1>
 		<h2>from:${params.from.date.month.from}</h2>
 		<h2>to:${params.from.date.month.to}</h2>
+		<h2>
+<a href="mailto:?subject=look at this website&body=Hi,I found this website
+and thought you might like it http://www.geocities.com/wowhtml/">tell a friend</a>
+		</h2>
 		<h2>download <a href="download">(Excel)</a></h2>
 		<table id="keywords" cellspacing="0" cellpadding="0">
 			<thead>

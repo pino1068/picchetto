@@ -61,6 +61,7 @@ grails {
 
 
 grails.converters.encoding = "UTF-8"
+grails.converters.default.pretty.print=true
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
 
@@ -115,3 +116,26 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+//
+//grails {
+//	mail {
+//	  host = "smtp.gmail.com"
+//	  port = 587
+//	  username = "xpl.gmtech@gmail.com"
+//	  password = "craiglarman1"
+//	  from="xpl.gmtech@gmail.com"
+//	  props = [
+//		'mail.smtp.auth': "true",
+//		"mail.smtp.starttls.enable": "true",
+//		"mail.from":"xpl.gmtech@gmail.com"
+//		]
+//	  javaMailProperties = [
+//		'mail.smtp.auth': "true",
+//		"mail.smtp.starttls.enable": "true",
+//		"mail.from":"xpl.gmtech@gmail.com"
+//	  	]
+//	}
+// }
+//
+//

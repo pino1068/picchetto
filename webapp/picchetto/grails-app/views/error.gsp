@@ -6,8 +6,6 @@
 		<g:if env="development"><asset:stylesheet src="errors.css"/></g:if>
 	</head>
 	<body>
-				
-				ciao Matteo asdfasdf asdf
 		<g:if env="development">
 			<g:renderException exception="${exception}" />
 		</g:if>

@@ -20,9 +20,10 @@ class BootStrap {
 			"Stefano Coluccia",
 			"Valentino Decarli",
 			]
-		people.each{ person ->
-			new Person(name:person).save()
-		}
+		if(Person.count()==0)
+			people.each{ person ->
+				new Person(name:person).save()
+			}
 		
 		MetaProgram.enrich()
 		
