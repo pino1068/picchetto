@@ -24,6 +24,10 @@ class Interval {
 		items.collect{new Date(min.time + (MILLISECS_IN_DAY*it))}
 	}
 	
+	boolean intersectsAny(others){
+		intersect(others).findAll {!it.empty}.size() > 0
+	}
+	
 	def untilEndOfMonth(){
 		new Interval(from:from, to:endOfMonth())
 	}

@@ -141,6 +141,20 @@ class TimeTest {
 		assertEquals sizes, intersections*.days*.size()
 		def weekdays = [5,0,3]
 		assertEquals weekdays, intersections*.weekdays*.size()
+		
+		assertTrue 2016.jan.intersectsAny([within, out, partial])
+		assertFalse 2016.jan.intersectsAny([out, out])
+	}
+	
+	@Test
+	public void intersectsAny() {
+		def within = "02.01.2016".until("10.01.2016")
+		def out = "01.02.2016".until("10.02.2016")
+		def out2 = "01.03.2016".until("10.03.2016")
+		def partial = "20.12.2015".until("5.1.2016")
+				
+		assertTrue 2016.jan.intersectsAny([within, out, partial])
+		assertFalse 2016.jan.intersectsAny([out, out2])
 	}
 	
 	@Test

@@ -22,7 +22,7 @@ class Period {
 		new Interval(from:fromDate, to:toDate)
 	}
 	
-	static def existsByInterval(interval){
+	static boolean existsIn(interval){
 		Period.createCriteria().count {
 			eq("fromDate", interval.from)
 			eq("toDate", interval.to)

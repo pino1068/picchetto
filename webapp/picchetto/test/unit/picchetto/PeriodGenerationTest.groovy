@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 
 
-@Mock([Person, Period])
+@Mock([Person, Period, Holidays])
 class PeriodGenerationTest {
 	
 	@Before
@@ -64,5 +64,18 @@ class PeriodGenerationTest {
 		new PeriodsGenerator(range:2017.year).generate()
 				
 		assertEquals 53, Period.all.size()
+	}
+	
+	@Test
+	public void withHolidays() {
+		Person enrico = new Person(name:"enrico").save()
+		Person matteo = new Person(name:"matteo").save()
+		matteo.addToHolidays(new Holidays(interval: 2016.year))
+		matteo.save()
+		
+		new PeriodsGenerator(range:2016.year).generate()
+		
+		assertEquals 0, matteo.periods.size()
+		assertEquals 53, enrico.periods.size()
 	}
 }
