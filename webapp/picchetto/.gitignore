@@ -1,2 +1,6 @@
 /target/
 /target-eclipse/
+/.project
+/devDb.h2.db
+/devDb.lock.db
+/devDb.trace.db
