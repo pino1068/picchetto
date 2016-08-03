@@ -17,7 +17,15 @@
 		<g:layoutHead/>
 	</head>
 	<body>
-		<div id="mfgroupLogo" role="banner"><a href="/picchetto"><asset:image src="mf-logo.png" alt="MF Group"/></a></div>
+		<div id="mfgroupLogo" role="banner">
+			<a href="/picchetto"><asset:image src="mf-logo.png" alt="MF Group"/></a>
+			<div  style="float: right; margin: 30px;">
+				<g:if test="${session.user}">
+					Logged in as ${session.user?.name } - 
+					<g:link controller="login" action="logout">logout</g:link>
+				</g:if>
+			</div>
+		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

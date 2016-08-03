@@ -4,7 +4,7 @@
 		<meta name="layout" content="main"/>
 		<title>Welcome to Grails</title>
 		<style type="text/css" media="screen">
-			#status {
+			.status {
 				background-color: #eee;
 				border: .2em solid #fff;
 				margin: 2em 2em 1em;
@@ -19,22 +19,22 @@
 				border-radius: 0.6em;
 			}
 
-			.ie6 #status {
+			.ie6 .status {
 				display: inline; /* float double margin fix http://www.positioniseverything.net/explorer/doubled-margin.html */
 			}
 
-			#status ul {
+			.status ul {
 				font-size: 0.9em;
 				list-style-type: none;
 				margin-bottom: 0.6em;
 				padding: 0;
 			}
 
-			#status li {
+			.status li {
 				line-height: 1.3;
 			}
 
-			#status h1 {
+			.status h1 {
 				text-transform: uppercase;
 				font-size: 1.1em;
 				margin: 0 0 0.3em;
@@ -66,7 +66,7 @@
 			}
 
 			@media screen and (max-width: 480px) {
-				#status {
+				.status {
 					display: none;
 				}
 
@@ -81,8 +81,9 @@
 		</style>
 	</head>
 	<body>
+		<g:if test="${session.user }">
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div id="status" role="complementary">
+		<div class="status" role="complementary">
 			<h1>Application Status</h1>
 			<ul>
 				<li>App version: <g:meta name="app.version"/></li>
@@ -105,7 +106,6 @@
 		<div id="page-body" role="main">
 			<h1>Welcome to Picchetto</h1>
 			<asset:image src="picchetto.jpg" alt="picchetto" width="50%"/>
-			
 
 			<div id="controller-list" role="navigation">
 				<g:link url="[action:'search',controller:'period']">Search</g:link>
@@ -120,5 +120,6 @@
 				</ul>
 			</div>
 		</div>
+		</g:if>
 	</body>
 </html>
