@@ -18,10 +18,18 @@ class Person {
 	}
 	
 	static Person randomAtWorkIn(Interval interval){
-		def lucky = random()
-		while(lucky?.hasHolidaysIn(interval))
-			lucky =  random()
-		lucky
+		if(Person.count == 0)
+			throw new IllegalStateException("empty people")
+		def availablePeople = Person.all.findAll{!it.hasHolidaysIn(interval)}
+		if(availablePeople.empty)
+			throw new IllegalStateException("no available people")
+		circular(availablePeople)?:random()
+	}
+	
+	static Person circular(people){
+		def lastPersonName = Period.last()?.person?.name
+		def person = people.sort{it.name}.find{it.name > lastPersonName}
+		person?:people.first()
 	}
 	
 	static Person random(){

@@ -36,13 +36,28 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void picksRandom() {
-		Person enrico = new Person(name:"enrico").save()
 		Person matteo = new Person(name:"matteo").save()
+		Person enrico = new Person(name:"enrico").save()
 		
 		new PeriodsGenerator(range:2016.year).generate()
 		
 		assertEquals 53, Period.all.size()
-		assertTrue Period.first().person in [enrico,matteo]
+		assertEquals enrico, Period.get(1).person
+		assertEquals matteo, Period.get(2).person
+		assertEquals enrico, Period.get(3).person
+		assertEquals matteo, Period.get(4).person
+	}
+	
+	@Test
+	public void stressTest() {
+		(0..1000).each{
+			new Person(name:"matteo"+it).save()
+		}
+		new PeriodsGenerator(range:2016.year).generate()
+				
+		assertEquals 53, Period.all.size()
+		assertEquals "matteo0", Period.first().person.name
+		assertEquals "matteo144", Period.last().person.name
 	}
 	
 	@Test
@@ -65,5 +80,21 @@ class PeriodGenerationTest {
 		
 		assertEquals 0, matteo.periods.size()
 		assertEquals 53, enrico.periods.size()
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void allOnHolidays() {
+		Person enrico = new Person(name:"enrico").save()
+		enrico.addToHolidays(new Holidays(interval: 2016.year))
+		Person matteo = new Person(name:"matteo").save()
+		matteo.addToHolidays(new Holidays(interval: 2016.year))
+		matteo.save()
+				
+		new PeriodsGenerator(range:2016.year).generate()
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void noPerson() {
+		new PeriodsGenerator(range:2016.year).generate()
 	}
 }

@@ -26,7 +26,7 @@
 		<link>
 			<name>.link_to_grails_plugins</name>
 			<type>2</type>
-			<location>/home/dev/pino/picchetto/webapp/picchetto/target/work/plugins</location>
+			<location>/home/dev/projects/gitRepositories/picchetto/webapp/picchetto/target/work/plugins</location>
 		</link>
 	</linkedResources>
 </projectDescription>

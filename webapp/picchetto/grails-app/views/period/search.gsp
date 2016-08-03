@@ -10,42 +10,49 @@
 	</head>
 <body>
 
-<div ng-app="myApp" ng-controller="customersCtrl">
-<div style="text-align:right;margin:5px;">
-<label>Year:</label>
-<input type="text" name="year" ng-model="year">
-<a href="generate?year={{year}}">Generate</a>
-</div>
-<table>
-<thead>
-		<tr>
-			<th>Found: {{periods.length}} periods
-				<span ng-show="searching"><asset:image src="spinner.gif" alt="searching"/></span>
-			</th>
-			<th colspan=2>2016 2017 2018</th>
-			<th></th>
-		</tr>
-		<tr>
-			<th>Person <br/><input type="text" name="person" ng-model="person" ng-change="refresh()" ng-model-options='{ debounce: 300 }'></th>
-			<th>From Date <br/><input type="text" name="from" ng-model="from" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
-			<th>To Date <br/><input type="text" name="to" ng-model="to" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
-			<th>Status</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="period in periods">
-			<td>{{period.person.name}}</td>
-			<td>{{period.fromDate | date:'dd.MM.yyyy'}}</td>
-			<td>{{period.toDate | date:'dd.MM.yyyy'}}</td>
-			<td>{{period.status}}</td>
-		</tr>
-	</tbody>
-</table>
+<div ng-app="myApp" ng-controller="searchCtrl">
+	<div style="text-align:right;margin:5px;">
+		<label>Year:</label>
+		<input type="text" name="year" ng-model="year">
+		<a href="generate?year={{year}}">Generate</a>
+	</div>
+	<div style="text-align:right;margin:5px;">
+		<label>From:</label>
+		<input type="text" name="from" ng-model="from">
+		<label>To:</label>
+		<input type="text" name="to" ng-model="to">
+		<a href="generate?from={{from}}&amp;to={{to}}">Generate</a>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>Found: {{periods.length}} periods
+					<span ng-show="searching"><asset:image src="spinner.gif" alt="searching"/></span>
+				</th>
+				<th colspan=2>2016 2017 2018</th>
+				<th></th>
+			</tr>
+			<tr>
+				<th>Person <br/><input type="text" name="person" ng-model="person" ng-change="refresh()" ng-model-options='{ debounce: 300 }'></th>
+				<th>From Date <br/><input type="text" name="from" ng-model="from" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
+				<th>To Date <br/><input type="text" name="to" ng-model="to" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="period in periods">
+				<td>{{period.person.name}}</td>
+				<td>{{period.fromDate | date:'dd.MM.yyyy'}}</td>
+				<td>{{period.toDate | date:'dd.MM.yyyy'}}</td>
+				<td>{{period.status}}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 <script>
 var app = angular.module('myApp', []);
-app.controller('customersCtrl', function($scope, $http) {
+app.controller('searchCtrl', function($scope, $http) {
 	$scope.to="";
 	$scope.from="";
 	$scope.refresh = function() {
