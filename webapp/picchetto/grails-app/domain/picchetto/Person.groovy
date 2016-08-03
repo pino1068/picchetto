@@ -15,7 +15,6 @@ class Person {
 	
 	boolean hasHolidaysIn(Interval interval){
 		interval.intersectsAny(holidays*.interval)
-//		holidays*.interval.findAll {!interval.intersect(it).empty}.size() > 0
 	}
 	
 	static Person randomAtWorkIn(Interval interval){

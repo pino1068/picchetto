@@ -31,8 +31,21 @@
 					
 				</li>
 				</g:if>
-				
-				Holidays: ${personInstance.holidays}
+				<li class="fieldcontain">
+					<span id="holidays-label" class="property-label"><g:message code="person.holidays.label" default="Holidays" /></span>
+					<ul class="property-value">
+						<g:each in="${personInstance.holidays.sort{it.fromDate}}" var="holiday">
+							<li>
+								<g:formatDate format="dd.MM.yyyy" date="${holiday.fromDate}"/> - 
+								<g:formatDate format="dd.MM.yyyy" date="${holiday.toDate}"/>
+								<g:link action="deleteGet" controller="holidays" id="${holiday.id}">delete</g:link>
+							</li>
+						</g:each>
+						<li>
+		 					<g:link action="create" controller="holidays">create new holiday</g:link>
+						</li>
+					</ul>
+				</li>
 			
 			</ol>
 			<g:form url="[resource:personInstance, action:'delete']" method="DELETE">
