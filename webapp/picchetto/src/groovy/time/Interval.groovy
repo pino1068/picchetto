@@ -29,10 +29,10 @@ class Interval {
 	}
 	
 	def untilEndOfMonth(){
-		new Interval(from:from, to:endOfMonth())
+		new Interval(from:from, to:endOfMonth)
 	}
 	
-	def endOfMonth(){
+	def getEndOfMonth(){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(from);
 		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));

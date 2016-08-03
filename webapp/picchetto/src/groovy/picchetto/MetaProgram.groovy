@@ -48,7 +48,13 @@ class MetaProgram {
 				("1.1."+delegate).until("31.12."+delegate)
 		}
 		Date.metaClass.getMonth = { 
-			new Interval(from: delegate).untilEndOfMonth()
+			new Interval(from: delegate.firstDayOfMonth).untilEndOfMonth()
+		}
+		Date.metaClass.getFirstDayOfMonth = {
+			Calendar cal = Calendar.getInstance()
+			cal.setTime(delegate)
+			cal.set(Calendar.DATE, cal.getActualMinimum(Calendar.DATE))
+			cal.getTime()
 		}
 		Integer.metaClass.getJan = {  ("1.1."+delegate).month }
 		Integer.metaClass.getFeb = {  ("1.2."+delegate).month }

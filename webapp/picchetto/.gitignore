@@ -1,6 +1,6 @@
 /target/
 /target-eclipse/
-/.project
+.project
 /devDb.h2.db
 /devDb.lock.db
 /devDb.trace.db

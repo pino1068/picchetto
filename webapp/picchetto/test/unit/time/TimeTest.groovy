@@ -113,6 +113,9 @@ class TimeTest {
 		range = "01.01.2016".date.month
 		assertEquals "01.01.2016".date, range.from
 		assertEquals 31, range.days.size()
+		
+		range = "08.01.2016".month
+		assertEquals "01.01.2016".date, range.from
 	}
 	
 	@Test
