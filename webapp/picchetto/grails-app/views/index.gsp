@@ -103,13 +103,15 @@
 			</ul>
 		</div>
 		<div id="page-body" role="main">
-			<h1>Welcome to Grails</h1>
-			<p>Congratulations, you have successfully started your first Grails application! At the moment
-			   this is the default page, feel free to modify it to either redirect to a controller or display whatever
-			   content you may choose. Below is a list of controllers that are currently deployed in this application,
-			   click on each to execute its default action:</p>
+			<h1>Welcome to Picchetto</h1>
+			<asset:image src="picchetto.jpg" alt="picchetto" width="50%"/>
+			
 
 			<div id="controller-list" role="navigation">
+				<g:link url="[action:'search',controller:'period']">Search</g:link>
+				<br/>
+				<g:link action='people' controller='report' params="[from:new Date().month.from.simpleFormat]">Report current month</g:link>
+				
 				<h2>Available Controllers:</h2>
 				<ul>
 					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">

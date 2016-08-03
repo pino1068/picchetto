@@ -50,6 +50,10 @@ class Interval {
 		others.collect{intersect(it)}
 	}
 	
+	def filter(daysToPick){
+		days.intersect(daysToPick)
+	}
+	
 	boolean positive(){
 		to.time >= from.time
 	}

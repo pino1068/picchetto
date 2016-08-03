@@ -13,18 +13,6 @@ class PeriodGenerationTest {
 		MetaProgram.enrich()
 	}
 	
-	@Ignore
-	public void randomPerson() {
-		Person enrico = new Person(name:"enrico").save()
-		Person matteo = new Person(name:"matteo").save()
-		
-		println Person.random()
-		println Person.random()
-		println Person.random()
-		println Person.random()
-		println Person.random()
-	}
-	
 	@Test
 	public void generateWithOnePerson() {
 		Person enrico = new Person(name:"enrico").save()

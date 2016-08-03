@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 
-@Mock([Person, Period])
+@Mock([Person, Period, PublicHoliday])
 class ReportTest {
 	
 	@Before
@@ -36,7 +36,7 @@ class ReportTest {
 	}
 	
 	@Test
-	public void oneRecordReport() {
+	public void oneRecord() {
 		Person enrico = new Person(name:"enrico").save()
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		def report = new PeopleReport(period:2016.jan)
@@ -47,6 +47,22 @@ class ReportTest {
 		assertEquals "enrico", first.name
 		assertEquals 6, first.weekdays.size()
 		assertEquals 0, first.holidays.size()
+		assertEquals 4, first.weekendDays.size()
+	}
+	
+	@Test
+	public void publicHoliday() {
+		new PublicHoliday(date:"6.1.2016".date,description:"Epiphany").save()
+		Person enrico = new Person(name:"enrico").save()
+		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
+		def report = new PeopleReport(period:2016.jan)
+		
+		assertEquals 1, report.all.size()
+		def first = report.all.first()
+		
+		assertEquals "enrico", first.name
+		assertEquals 5, first.weekdays.size()
+		assertEquals 1, first.holidays.size()
 		assertEquals 4, first.weekendDays.size()
 	}
 }

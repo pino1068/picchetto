@@ -158,6 +158,14 @@ class TimeTest {
 	}
 	
 	@Test
+	public void filterDays() {
+		def range = "1.01.2016".until("10.01.2016")
+		
+		assertEquals 2, range.filter(["2.1.2016".date, "4.1.2016".date]).size()
+		assertEquals 1, range.filter(["2.1.2016".date, "4.2.2016".date]).size()
+	}
+	
+	@Test
 	public void createYear() {
 		assertEquals 366, 2016.year.days.size()
 	}
@@ -171,7 +179,7 @@ class TimeTest {
 	@Test
 	public void generateWeeks() {
 		assertEquals 53, 2016.year.weeks.size()
-		assertEquals 1.jan(2016).time, 2016.year.weeks.first().from.time - 1
-		assertEquals 31.dec(2016).time, 2016.year.weeks.last().to.time - 1
+		assertEquals 1.jan(2016).time, 2016.year.weeks.first().from.time
+		assertEquals 31.dec(2016).time, 2016.year.weeks.last().to.time
 	}
 }

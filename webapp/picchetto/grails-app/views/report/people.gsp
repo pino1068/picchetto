@@ -231,12 +231,12 @@ and thought you might like it http://www.geocities.com/wowhtml/">tell a friend</
 						</g:if>
 					</tr>
 					<g:if test="${params.details}">
-						<g:each in="${person.weekdays}" var="day" >
+						<g:each in="${person.weekdays}" var="day">
 							<tr>
 								<td class="lalign">
 								</td>
 								<td>
-									<g:formatDate format="yyyy-MM-dd" date="${day}"/>
+									<g:formatDate format="dd.MM.yyyy" date="${day}"/>
 								</td>
 								<td>
 								</td>
@@ -244,7 +244,20 @@ and thought you might like it http://www.geocities.com/wowhtml/">tell a friend</
 								</td>
 							</tr>
 						</g:each>
-						<g:each in="${person.weekendDays}" var="day" >
+						<g:each in="${person.holidays}" var="day">
+							<tr>
+								<td class="lalign">
+								</td>
+								<td>
+								</td>
+								<td>
+									<g:formatDate format="dd.MM.yyyy" date="${day}"/>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</g:each>
+						<g:each in="${person.weekendDays}" var="day">
 							<tr>
 								<td class="lalign">
 								</td>
@@ -253,7 +266,7 @@ and thought you might like it http://www.geocities.com/wowhtml/">tell a friend</
 								<td>
 								</td>
 								<td>
-									<g:formatDate format="yyyy-MM-dd" date="${day}"/>
+									<g:formatDate format="dd.MM.yyyy" date="${day}"/>
 								</td>
 							</tr>
 						</g:each>

@@ -11,15 +11,21 @@ class PersonReport {
 	}
 	
 	def getWeekdays(){
-		reportInterval.intersect(person.periods*.interval)*.weekdays.flatten()
+		def days = periods*.weekdays.flatten()
+		days.removeAll(PublicHoliday.all*.date)
+		days
+	}
+	
+	private def getPeriods(){
+		reportInterval.intersect(person.periods*.interval)
 	}
 	
 	def getHolidays(){
-		[]
+		periods*.filter(PublicHoliday.all*.date).flatten()
 	}
 	
 	def getWeekendDays(){
-		reportInterval.intersect(person.periods*.interval)*.weekendDays.flatten()
+		periods*.weekendDays.flatten()
 	}
 	
 	double getTotal(){
