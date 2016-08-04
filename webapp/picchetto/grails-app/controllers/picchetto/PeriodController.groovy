@@ -23,4 +23,6 @@ class PeriodController {
 	}
 	
 	def search(){}
+	
+	def myperiods(){}
 }

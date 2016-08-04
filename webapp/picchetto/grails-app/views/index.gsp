@@ -110,7 +110,9 @@
 			<div id="controller-list" role="navigation">
 				<g:link url="[action:'search',controller:'period']">Search</g:link>
 				<br/>
-				<g:link action='people' controller='report' params="[from:new Date().month.from.simpleFormat]">Report current month</g:link>
+				<g:link action='people' controller='report' params="[from:new Date().firstDayOfMonth.simpleFormat]">Report current month</g:link>
+				<br/>
+				<g:link action='myperiods' controller='period'>My periods</g:link>
 				
 				<h2>Available Controllers:</h2>
 				<ul>

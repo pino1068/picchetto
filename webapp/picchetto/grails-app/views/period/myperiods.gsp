@@ -9,36 +9,20 @@
 		</script>
 	</head>
 <body>
-
-<div ng-app="myApp" ng-controller="searchCtrl">
-	<div style="text-align:left;margin:0 0 0 50px;">
-		<g:link action="myperiods">view assigned to me only</g:link>
-	</div>
-	<div style="text-align:right;margin:5px;">
-		<label>Year:</label>
-		<input type="text" name="year" ng-model="year">
-		<a href="generate?year={{year}}">Generate</a>
-	</div>
-	<div style="text-align:right;margin:5px;">
-		<label>From:</label>
-		<input type="text" name="from" ng-model="from">
-		<label>To:</label>
-		<input type="text" name="to" ng-model="to">
-		<a href="generate?from={{from}}&amp;to={{to}}">Generate</a>
+<div ng-app="myApp" ng-controller="myperiodsCtrl">
+	<div style="text-align:left;margin:0 0 50px 50px;">
+		<g:link action="search">all assignments</g:link>
 	</div>
 	<div style="height:400px; overflow:auto;">
 	<table>
 		<thead>
 			<tr>
-				<th>Search
+				<th colspan=2>Assigned to me</th>
+				<th>Found: {{periods.length}} periods
 					<span ng-show="searching"><asset:image src="spinner.gif" alt="searching"/></span>
 				</th>
-				<th></th>
-				<th></th>
-				<th>{{periods.length}} periods found</th>
 			</tr>
 			<tr>
-				<th>Person <br/><input type="text" name="person" ng-model="person" ng-change="refresh()" ng-model-options='{ debounce: 300 }'></th>
 				<th>From Date <br/><input type="text" name="from" ng-model="from" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
 				<th>To Date <br/><input type="text" name="to" ng-model="to" ng-change="refresh()" ng-model-options='{ debounce: 1000 }'></th>
 				<th>Status</th>
@@ -46,7 +30,6 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="period in periods">
-				<td>{{period.person.name}}</td>
 				<td>{{period.fromDate | date:'dd.MM.yyyy'}}</td>
 				<td>{{period.toDate | date:'dd.MM.yyyy'}}</td>
 				<td>{{period.status}}</td>
@@ -58,7 +41,7 @@
 
 <script>
 var app = angular.module('myApp', []);
-app.controller('searchCtrl', function($scope, $http) {
+app.controller('myperiodsCtrl', function($scope, $http) {
 	$scope.to="";
 	$scope.from="";
 	$scope.refresh = function() {
@@ -73,7 +56,7 @@ app.controller('searchCtrl', function($scope, $http) {
 			$scope.searching=false;
 	    });
       };
-	$scope.person="";
+  	$scope.person='${session.user.name}';
 	$scope.searching=false;
 	$scope.refresh();
 });
