@@ -1,7 +1,7 @@
 
 package picchetto;
 
-import grails.test.mixin.*
+import grails.test.mixin.Mock
 
 import org.junit.Before
 import org.junit.Test

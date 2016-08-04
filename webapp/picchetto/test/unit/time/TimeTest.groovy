@@ -22,6 +22,11 @@ class TimeTest {
 	}
 	
 	@Test
+	public void formatDate(){
+		assertEquals "1.1.2016".date, "2016-01-01".date("yyyy-MM-dd")
+	}
+	
+	@Test
 	public void formatAllDates() {
 		assertEquals "01.01.2016", "1.1.2016".date.simpleFormat()
 		assertEquals "01.01.2016", "1.1.2016".date.simpleFormat

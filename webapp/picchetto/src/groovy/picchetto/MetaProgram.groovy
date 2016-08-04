@@ -27,7 +27,10 @@ class MetaProgram {
 			getEndOfDay(delegate)
 		}
 		String.metaClass.getDate = {
-			new SimpleDateFormat("dd.MM.yyyy").parse(delegate)
+			delegate.date("dd.MM.yyyy")
+		}
+		String.metaClass.date = { String format ->
+			new SimpleDateFormat(format).parse(delegate)
 		}
 		Date.metaClass.until = { String to ->
 			new Interval(from: delegate.startOfDay(), to:to.date.endOfDay())
