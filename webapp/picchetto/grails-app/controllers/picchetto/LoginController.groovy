@@ -7,7 +7,7 @@ class LoginController {
 	
 	def loginAs(Person p){
 		session.user = p
-		redirect(uri: "/")
+		redirect(controller:"period", action:"search")
 	}
 	
 	def logout(Person p){

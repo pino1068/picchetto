@@ -9,7 +9,7 @@ import time.Interval
 @ToString
 class Period {
 	Date fromDate = new Date(), toDate=fromDate
-	String status = "open"
+	String status = "assigned"
 	Person person
 	Double price
 	
@@ -37,6 +37,8 @@ class Period {
 				gte("fromDate", params.from.date)
 			if(params.to && !params.to.empty)
 				lte("toDate", params.to.date)
+			if(params.status && !params.status.empty)
+				ilike("status", "%$params.status%")
 		}
 	}
 	
@@ -47,7 +49,7 @@ class Period {
 		person()
 		fromDate(nullable:true,format:"dd.MM.yyyy")
 		toDate(nullable:true,format:"dd.MM.yyyy")
-		status(inList: ["open", "assigned", "on-market"])
+		status(inList: ["assigned", "on-market"])
 		price(nullable:true)
 	} 
 }
