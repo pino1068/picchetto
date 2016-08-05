@@ -8,3 +8,5 @@ grails-3.1.9/
 bootstrap-calendar/
 .metadata/
 /bootstrap-calendar/
+.classpath
+.project
