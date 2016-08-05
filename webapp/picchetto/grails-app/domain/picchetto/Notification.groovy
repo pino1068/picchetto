@@ -2,6 +2,7 @@ package picchetto
 
 class Notification {
 	def mailService
+	Date dateCreated, lastUpdated
 	
 	Person target
 	String message
@@ -22,5 +23,9 @@ class Notification {
 	
 	static void sendThemAll(){
 		Notification.findAllBySent(false)*.send()
+	}
+	
+	static mapping = {
+		autoTimestamp true
 	}
 }

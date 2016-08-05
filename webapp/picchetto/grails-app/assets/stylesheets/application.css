@@ -79,3 +79,20 @@
 }
 
 .modal-body {padding: 2px 16px;}
+
+.modal-body ul {
+    margin-bottom: 14px;
+    list-style: none;
+}
+.modal-body li {  margin: 0 0 7px 0; }
+.modal-body li a { 
+    display: block;
+	margin: 0 0 7px 0;
+	background: #F7F5F2;
+	font-size: 18px;
+	color: #333;
+	padding: 5px 0 0 20px;
+	text-decoration: none;
+}
+.modal-body li a:hover { background-color: #EFEFEF; }
+.modal-body .blue{ border-left: 5px solid #61A8DC; }
