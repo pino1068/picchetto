@@ -15,21 +15,26 @@
 	</head>
 <body>
 <div>
+	<g:if test="${flash.message}">
+		<div class="message" role="status">${flash.message}</div>
+	</g:if>
 	<div style="text-align:right;margin:5px;">
 		<g:link action='people' controller='report' params="[from:new Date().firstDayOfMonth.simpleFormat]" target="_blank">Report current month</g:link>
 	</div>
-	<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
-		<label>Year:</label>
-		<input type="text" name="year" ng-model="year">
-		<a href="generate?year={{year}}">Generate</a>
-	</div>
-	<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
-		<label>From:</label>
-		<input type="text" name="from" ng-model="from">
-		<label>To:</label>
-		<input type="text" name="to" ng-model="to">
-		<a href="generate?from={{from}}&amp;to={{to}}">Generate</a>
-	</div>
+	<g:if test="${session.user.admin}">
+		<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
+			<label>Year:</label>
+			<input type="text" name="year" ng-model="year">
+			<a href="generate?year={{year}}">Generate</a>
+		</div>
+		<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
+			<label>From:</label>
+			<input type="text" name="from" ng-model="from">
+			<label>To:</label>
+			<input type="text" name="to" ng-model="to">
+			<a href="generate?from={{from}}&amp;to={{to}}">Generate</a>
+		</div>
+	</g:if>
 	<div style="height:400px; overflow:auto;">
 	<table  ng-controller="searchCtrl">
 		<thead>

@@ -20,8 +20,11 @@ class PeriodController {
 
 	@Transactional
 	def generate(){
-		def range = params.year?params.year.year:params.from.until(params.to)
-		new PeriodsGenerator(range: range).generate()
+		if(session.user.admin){
+			def range = params.year?params.year.year:params.from.until(params.to)
+			new PeriodsGenerator(range: range).generate()
+		}else
+			flash.message = "only admin can generate periods"
 		redirect(action: "search")
 	}
 	

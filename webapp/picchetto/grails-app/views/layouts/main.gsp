@@ -32,7 +32,7 @@
 					<g:link controller="login" action="index">login</g:link>
 				</g:if>
 				<g:if test="${session.user}">
-					Logged in as ${session.user?.name } - 
+					${session.user?.name } 
 					<g:link controller="login" action="logout">logout</g:link>
 				<div ng-controller="notificationsView">
 					<g:if test="${Notification.findAllByTarget(session.user).size() > 0}">

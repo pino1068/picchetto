@@ -6,6 +6,7 @@ import time.Interval
 @ToString
 class Person {
 	String name, email
+	boolean admin
 	
 	static hasMany = [holidays: Holidays]
 	
@@ -19,6 +20,11 @@ class Person {
 	
 	boolean hasHolidaysIn(Interval interval){
 		interval.intersectsAny(holidays*.interval)
+	}
+	
+	Person makeAdmin(){
+		admin = true
+		save()
 	}
 	
 	static Person randomAtWorkIn(Interval interval){

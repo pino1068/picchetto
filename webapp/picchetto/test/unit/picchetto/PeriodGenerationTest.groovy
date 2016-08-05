@@ -3,11 +3,13 @@ package picchetto;
 
 import static builder.PersonBuilder.*
 import grails.test.mixin.Mock
+import grails.test.mixin.TestFor;
 
 import org.junit.Before
 import org.junit.Test
 
 
+@TestFor(PeriodController)
 @Mock([Person, Period, Holidays])
 class PeriodGenerationTest {
 	
@@ -17,11 +19,32 @@ class PeriodGenerationTest {
 	}
 	
 	@Test
+	public void onlyAdminCanGenerate() {
+		Person enrico = session.user = enrico().makeAdmin()
+		
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals 53, Period.all.size()
+	}
+	
+	@Test
+	public void "user is not allowed to generate"() {
+		Person enrico = session.user = enrico()
+				
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals "only admin can generate periods", flash.message
+		assertEquals 0, Period.all.size()
+	}
+	
+	@Test
 	public void generateWithOnePerson() {
 		Person enrico = enrico()
-		
+				
 		new PeriodsGenerator(range:2016.year).generate()
-		
+				
 		assertEquals 53, Period.all.size()
 		assertEquals enrico, Period.all.first().person
 	}
