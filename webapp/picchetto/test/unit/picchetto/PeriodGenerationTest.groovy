@@ -10,7 +10,7 @@ import org.junit.Test
 
 
 @TestFor(PeriodController)
-@Mock([Person, Period, Holidays])
+@Mock([Person, Period, Holidays, Notification])
 class PeriodGenerationTest {
 	
 	@Before
@@ -20,12 +20,26 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void onlyAdminCanGenerate() {
+		Person matteo = matteo()
 		Person enrico = session.user = enrico().makeAdmin()
 		
 		params.year = "2016"
 		controller.generate()
 		
 		assertEquals 53, Period.all.size()
+	}
+	
+	@Test
+	public void generationNotifiesNewOwners() {
+		Person matteo = matteo()
+		Person enrico = session.user = enrico().makeAdmin()
+		
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals 26, matteo.notifications.size()
+		assertEquals "http://localhost:8080/picchetto/period/search?id=2", matteo.notifications.first().link
+		assertEquals "period.create.notify.message", matteo.notifications.first().message
 	}
 	
 	@Test

@@ -22,7 +22,16 @@ class PeriodController {
 	def generate(){
 		if(session.user.admin){
 			def range = params.year?params.year.year:params.from.until(params.to)
-			new PeriodsGenerator(range: range).generate()
+			new PeriodsGenerator(range: range).generate().each{ Period p ->
+				def link = p.createLink(grailsApplication.config.picchetto.server.url)
+				new Notification(target:p.person,
+					link: link,
+					message:
+					message(code: "period.create.notify.message", args:
+						[p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, link])
+					).save()
+			}
+			
 		}else
 			flash.message = "only admin can generate periods"
 		redirect(action: "search")

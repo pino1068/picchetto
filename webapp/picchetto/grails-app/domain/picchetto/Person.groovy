@@ -50,7 +50,7 @@ class Person {
 		Person.get(new Random().nextInt(Person.count())+1)
 	}
 	
-	static transients = ["holidaysInterval"]
+	static transients = ["holidaysInterval", "notifications"]
 	
     static constraints = {
 		name()

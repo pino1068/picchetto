@@ -23,7 +23,7 @@ class Period {
 	}
 	
 	String createLink(prefix){
-		prefix+"/period/search?id=$id"//person=$person.firstName&from=$fromDate.simpleFormat&to=$toDate.simpleFormat"
+		prefix+"/period/search?id=$id"
 	}
 	
 	static boolean existsIn(interval){
