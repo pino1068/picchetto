@@ -9,8 +9,9 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class PeriodController {
 	static scaffold = Period
-	
 	static allowedMethods = [sell: "POST",buy: "POST", save: "POST", update: "PUT", delete: "DELETE"]
+	
+	def grailsApplication
 	
     def list(Integer max) {
     	params.max = Math.min(max ?: 100, 500)
@@ -30,14 +31,27 @@ class PeriodController {
 	def sell(Period p){
 		p.status = "on-market"
 		p.save( flush:true)
+		Person.findAllByIdNotEqual(p.person.id).each{
+			new Notification(target:it, message:
+				message(code: "period.sell.notify.message", args: [it.name, p.person.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, p.id, grailsApplication.config.picchetto.server.url])
+				).save()//.trigger()
+		}
 		render true
 	}
 	
 	@Transactional
 	def buy(Period p){
+		Person previous = p.person
 		p.status = "assigned"
 		p.person = session.user
 		p.save( flush:true)
+		new Notification(target:previous, message:
+			message(code: "period.buy.gone.notify.message", args: [previous.name, p.person.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, grailsApplication.config.picchetto.server.url, p.id])
+			).save()//.trigger()
+		new Notification(target:p.person, message:
+			message(code: "period.buy.got.notify.message", args: [p.person.name, previous.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, grailsApplication.config.picchetto.server.url, p.id])
+				).save()//.trigger()
+
 		render true
 	}
 }

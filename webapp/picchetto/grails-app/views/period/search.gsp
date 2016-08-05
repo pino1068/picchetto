@@ -5,8 +5,6 @@
 	<head>
 		<meta name="layout" content="main">
 		<title>Search periods</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
-		</script>
 		<style type="text/css">
 		th a {
     /* display: block; */
@@ -17,7 +15,7 @@
 	</head>
 <body>
 
-<div ng-app="myApp" ng-controller="searchCtrl">
+<div ng-controller="searchCtrl">
 	<div style="text-align:right;margin:5px;">
 		<g:link action='people' controller='report' params="[from:new Date().firstDayOfMonth.simpleFormat]" target="_blank">Report current month</g:link>
 	</div>
@@ -74,7 +72,6 @@
 </div>
 
 <script>
-var app = angular.module('myApp', []);
 app.controller('searchCtrl', function($scope, $http) {
   	$scope.userId='${session.user.id}';
   	$scope.userName='${session.user.name}';

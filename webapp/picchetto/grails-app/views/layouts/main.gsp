@@ -1,3 +1,4 @@
+<%@ page import="picchetto.Notification" %>
 <!DOCTYPE html>
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
@@ -14,15 +15,45 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
+<style>
+</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script type="text/javascript">
+		var app = angular.module('myApp', []);
+		app.controller('notificationsView', function($scope, $http) {
+			$scope.notifications = false;
+		});
+		</script>
 		<g:layoutHead/>
 	</head>
-	<body>
+	<body ng-app="myApp" >
 		<div id="mfgroupLogo" role="banner">
 			<a href="/picchetto"><asset:image src="mf-logo.png" alt="MF Group"/></a>
 			<div  style="float: right; margin: 30px;">
 				<g:if test="${session.user}">
 					Logged in as ${session.user?.name } - 
 					<g:link controller="login" action="logout">logout</g:link>
+					<div ng-controller="notificationsView">
+						<g:if test="${Notification.findAllByTarget(session.user).size() > 0}">
+							you have news: 
+							<button ng-model="notifications" ng-hide="notifications" ng-init="notifications = false" ng-click="notifications=!notifications">open</button>
+								<div class="modal-content" ng-show="notifications"  >
+								
+  <div class="modal-header">
+    <span class="close" ng-click="notifications=!notifications">×</span>
+    <h2>Notifications</h2>
+  </div>
+  <div class="modal-body">
+  	<g:each in="${Notification.findAllByTarget(session.user)}" var="n">
+	<p>${n.message}</p>
+	</g:each>
+  </div>
+  <div class="modal-footer">
+    <button ng-show="notifications" ng-click="notifications=!notifications">close</button>
+  </div>
+</div>
+						</g:if>
+					</div>
 				</g:if>
 			</div>
 		</div>
