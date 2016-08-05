@@ -36,7 +36,7 @@ class Period {
 			if(params.from && !params.from.empty)
 				gte("fromDate", params.from.date)
 			if(params.to && !params.to.empty)
-				lte("toDate", params.to.date)
+				lte("toDate", params.to.date.endOfDay())
 			if(params.status && !params.status.empty)
 				ilike("status", "%$params.status%")
 		}

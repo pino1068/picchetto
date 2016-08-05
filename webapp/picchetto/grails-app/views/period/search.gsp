@@ -14,17 +14,16 @@
 		</style>
 	</head>
 <body>
-
-<div ng-controller="searchCtrl">
+<div>
 	<div style="text-align:right;margin:5px;">
 		<g:link action='people' controller='report' params="[from:new Date().firstDayOfMonth.simpleFormat]" target="_blank">Report current month</g:link>
 	</div>
-	<div style="text-align:right;margin:5px;">
+	<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
 		<label>Year:</label>
 		<input type="text" name="year" ng-model="year">
 		<a href="generate?year={{year}}">Generate</a>
 	</div>
-	<div style="text-align:right;margin:5px;">
+	<div style="text-align:right;margin:5px;" ng-controller="generateCtrl">
 		<label>From:</label>
 		<input type="text" name="from" ng-model="from">
 		<label>To:</label>
@@ -32,7 +31,7 @@
 		<a href="generate?from={{from}}&amp;to={{to}}">Generate</a>
 	</div>
 	<div style="height:400px; overflow:auto;">
-	<table>
+	<table  ng-controller="searchCtrl">
 		<thead>
 			<tr>
 				<th>Search
@@ -72,14 +71,16 @@
 </div>
 
 <script>
+app.controller('generateCtrl', function($scope, $http) {});
+
 app.controller('searchCtrl', function($scope, $http) {
   	$scope.userId='${session.user.id}';
   	$scope.userName='${session.user.name}';
 	$scope.clear = function() {
-		$scope.to="";
-		$scope.from="";
+		$scope.to="${params.to?:""}";
+		$scope.from="${params.from?:""}";
 		$scope.status="";
-		$scope.person="";
+		$scope.person="${params.person?:""}";
 		$scope.refresh();
 	};
 	$scope.refresh = function() {
@@ -108,7 +109,6 @@ app.controller('searchCtrl', function($scope, $http) {
 			$scope.refresh();
 	    });
       };
-	$scope.person="";
 	$scope.clear();
 });
 </script>

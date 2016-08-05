@@ -25,7 +25,8 @@ class PeriodController {
 		redirect(action: "search")
 	}
 	
-	def search(){}
+	def search(){
+	}
 	
 	@Transactional
 	def sell(Period p){
@@ -34,8 +35,8 @@ class PeriodController {
 		Person.findAllByIdNotEqual(p.person.id).each{
 			new Notification(target:it, message:
 				message(code: "period.sell.notify.message", args: 
-					[it.name, p.person.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
-						p.id, grailsApplication.config.picchetto.server.url])
+					[it.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
+						grailsApplication.config.picchetto.server.url])
 				).save()
 		}
 		render true
@@ -49,12 +50,12 @@ class PeriodController {
 		p.save( flush:true)
 		new Notification(target:previous, message:
 			message(code: "period.buy.gone.notify.message", args: 
-				[previous.name, p.person.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
+				[previous.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
 					grailsApplication.config.picchetto.server.url, p.id])
 			).save()
 		new Notification(target:p.person, message:
 			message(code: "period.buy.got.notify.message", args: 
-				[p.person.name, previous.name, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
+				[p.person.firstName, previous.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
 					grailsApplication.config.picchetto.server.url, p.id])
 				).save()
 		render true

@@ -9,6 +9,10 @@ class Person {
 	
 	static hasMany = [holidays: Holidays]
 	
+	def getFirstName(){
+		name.split(" ")[0]
+	}
+	
 	def getPeriods(){
 		Period.findAllByPerson(this)
 	}
