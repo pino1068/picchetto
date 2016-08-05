@@ -26,8 +26,11 @@
 	</head>
 	<body ng-app="myApp" >
 		<div id="mfgroupLogo" role="banner">
-			<a href="/picchetto"><asset:image src="mf-logo.png" alt="MF Group"/></a>
+			<a href="${createLink(uri: '/')}"><asset:image src="mf-logo.png" alt="MF Group"/></a>
 			<div  style="float: right; margin: 30px;">
+				<g:if test="${!session.user}">
+					<g:link controller="login" action="index">login</g:link>
+				</g:if>
 				<g:if test="${session.user}">
 					Logged in as ${session.user?.name } - 
 					<g:link controller="login" action="logout">logout</g:link>
