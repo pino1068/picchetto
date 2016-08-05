@@ -15,7 +15,7 @@ class Period {
 	
 	void setInterval(Interval range){
 		fromDate = range.from
-		toDate = range.to
+		toDate = range.to.endOfDay()
 	}
 	
 	Interval getInterval(){
@@ -23,11 +23,9 @@ class Period {
 	}
 	
 	static boolean existsIn(interval){
-		Period.createCriteria().count {
-			eq("fromDate", interval.from)
-			eq("toDate", interval.to)
-		} > 0
+		interval.intersectsAny(Period.all*.interval)
 	}
+	
 	static def findAllByParams(params){
 		Period.createCriteria().listDistinct {
 			List people = Person.findAllByNameIlike("%$params.person%")
@@ -36,7 +34,7 @@ class Period {
 			if(params.from && !params.from.empty)
 				gte("fromDate", params.from.date)
 			if(params.to && !params.to.empty)
-				lte("toDate", params.to.date)
+				lte("toDate", params.to.date.endOfDay())
 			if(params.status && !params.status.empty)
 				ilike("status", "%$params.status%")
 		}

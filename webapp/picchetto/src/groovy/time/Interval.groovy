@@ -1,7 +1,9 @@
 package time
 
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString;
+import groovy.transform.ToString
+
+import java.text.SimpleDateFormat
 
 @EqualsAndHashCode
 @ToString

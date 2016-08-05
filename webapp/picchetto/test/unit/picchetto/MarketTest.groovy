@@ -63,7 +63,7 @@ class MarketTest {
 	}
 	
 	@Test
-	public void notificationTriggerAll() {
+	public void markNotificationAsSent() {
 		session.user = matteo()
 		Period p = onePeriod(enrico())
 		request.method = "POST"
@@ -72,10 +72,16 @@ class MarketTest {
 		assertFalse Notification.first().sent
 		assertFalse Notification.last().sent
 		
+		disableSendRealEmails()
+		
 		Notification.sendThemAll()
 		
 		assertTrue Notification.first().sent
 		assertTrue Notification.last().sent
+	}
+
+	void disableSendRealEmails(){
+		Notification.all*.grailsApplication = {config.picchetto.send.emails=false}
 	}
 	
 	private onePeriod(Person enrico) {

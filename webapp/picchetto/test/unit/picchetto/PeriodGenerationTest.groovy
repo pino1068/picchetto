@@ -2,7 +2,7 @@
 package picchetto;
 
 import static builder.PersonBuilder.*
-import grails.test.mixin.*
+import grails.test.mixin.Mock
 
 import org.junit.Before
 import org.junit.Test
@@ -33,6 +33,17 @@ class PeriodGenerationTest {
 		new PeriodsGenerator(range:2016.year).generate()
 		new PeriodsGenerator(range:2016.year).generate()
 			
+		assertEquals 53, Period.all.size()
+		assertEquals enrico, Period.all.first().person
+	}
+	
+	@Test
+	public void generateWithIntersection() {
+		Person enrico = enrico()
+		
+		new PeriodsGenerator(range:2016.year).generate()
+		new PeriodsGenerator(range:"1.1.2016".until("10.1.2016")).generate()
+		
 		assertEquals 53, Period.all.size()
 		assertEquals enrico, Period.all.first().person
 	}
