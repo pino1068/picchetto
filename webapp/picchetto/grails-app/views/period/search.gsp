@@ -39,9 +39,9 @@
 	<table  ng-controller="searchCtrl">
 		<thead>
 			<tr>
-				<th>Search
+				<th colspan="2">Search
 					<span ng-show="searching"><asset:image src="spinner.gif" alt="searching"/></span>
-					 <a href="#" ng-click="clear()">clear</a>
+					 <a href="#" ng-click="clearAndRefresh()">clear</a>
 				</th>
 				<th></th>
 				<th></th>
@@ -49,6 +49,7 @@
 				<th></th>
 			</tr>
 			<tr>
+				<th>ID</th>
 				<th>Person <a href="#" ng-click="mineOnly()">mine</a>
 				<br/><input type="text" name="person" ng-model="person" ng-change="refresh()" ng-model-options='{ debounce: 300 }'>
 				</th>
@@ -61,7 +62,8 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="period in periods">
-				<td>{{period.person.name}}</td>
+				<td><a href="" ng-click="select(period.id)">{{period.id}}</a></td>
+				<td><a href="" ng-click="byPerson(period.person.name)">{{period.person.name}}</a> </td>
 				<td>{{period.fromDate | date:'dd.MM.yyyy'}}</td>
 				<td>{{period.toDate | date:'dd.MM.yyyy'}}</td>
 				<td>{{period.status}}</td>
@@ -82,15 +84,19 @@ app.controller('searchCtrl', function($scope, $http) {
   	$scope.userId='${session.user.id}';
   	$scope.userName='${session.user.name}';
 	$scope.clear = function() {
-		$scope.to="${params.to?:""}";
-		$scope.from="${params.from?:""}";
+		$scope.id="";
+		$scope.to="";
+		$scope.from="";
 		$scope.status="";
-		$scope.person="${params.person?:""}";
+		$scope.person="";
+	};
+	$scope.clearAndRefresh = function() {
+		$scope.clear();
 		$scope.refresh();
 	};
 	$scope.refresh = function() {
 		$scope.searching=true;
-	    $http.get("list?person="+$scope.person+"&from="+$scope.from+"&to="+$scope.to+"&status="+$scope.status).then(function (response) {
+	    $http.get("list?id="+$scope.id+"&person="+$scope.person+"&from="+$scope.from+"&to="+$scope.to+"&status="+$scope.status).then(function (response) {
 	    	$scope.periods = response.data;
 	    	angular.forEach($scope.periods, function(period) {
 	            $http.get("../person/json/"+period.person.id).then(function (response) {
@@ -100,8 +106,17 @@ app.controller('searchCtrl', function($scope, $http) {
 			$scope.searching=false;
 	    });
       };
-  	$scope.mineOnly = function(id) {
-  		$scope.person = $scope.userName;
+  	$scope.select = function(id) {
+  		$scope.clear();
+  		$scope.id = id;
+  		$scope.refresh();
+      };
+  	$scope.mineOnly = function() {
+  		$scope.byPerson($scope.userName)
+      };
+  	$scope.byPerson = function(person) {
+  		$scope.clear();
+  		$scope.person = person;
   		$scope.refresh();
       };
   	$scope.sell = function(id) {
@@ -114,7 +129,15 @@ app.controller('searchCtrl', function($scope, $http) {
 			$scope.refresh();
 	    });
       };
-	$scope.clear();
+  	$scope.init = function() {
+	  	$scope.id="${params.id?:""}";
+		$scope.to="${params.to?:""}";
+		$scope.from="${params.from?:""}";
+		$scope.status="";
+		$scope.person="${params.person?:""}";
+		$scope.refresh();
+  	};
+  	$scope.init();
 });
 </script>
 

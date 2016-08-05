@@ -35,11 +35,13 @@ class PeriodController {
 	def sell(Period p){
 		p.status = "on-market"
 		p.save( flush:true)
+		def link = p.createLink(grailsApplication.config.picchetto.server.url)
 		Person.findAllByIdNotEqual(p.person.id).each{
-			new Notification(target:it, message:
+			new Notification(target:it, 
+				link: link,
+				message:
 				message(code: "period.sell.notify.message", args: 
-					[it.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
-						grailsApplication.config.picchetto.server.url])
+					[it.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat,link])
 				).save()
 		}
 		render true
@@ -51,15 +53,16 @@ class PeriodController {
 		p.status = "assigned"
 		p.person = session.user
 		p.save( flush:true)
-		new Notification(target:previous, message:
-			message(code: "period.buy.gone.notify.message", args: 
-				[previous.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
-					grailsApplication.config.picchetto.server.url, p.id])
+		def link = p.createLink(grailsApplication.config.picchetto.server.url)
+		new Notification(target:previous,
+				link: link,
+				message: message(code: "period.buy.gone.notify.message", args: 
+				[previous.firstName, p.person.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, link])
 			).save()
-		new Notification(target:p.person, message:
-			message(code: "period.buy.got.notify.message", args: 
-				[p.person.firstName, previous.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, 
-					grailsApplication.config.picchetto.server.url, p.id])
+		new Notification(target:p.person, 
+				link: link,
+				message: message(code: "period.buy.got.notify.message", args: 
+				[p.person.firstName, previous.firstName, p.fromDate.simpleFormat, p.toDate.simpleFormat, link])
 				).save()
 		render true
 	}

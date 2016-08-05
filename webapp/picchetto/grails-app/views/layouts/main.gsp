@@ -26,7 +26,8 @@
 	</head>
 	<body ng-app="myApp" >
 		<div id="mfgroupLogo" role="banner">
-			<a href="${createLink(uri: '/')}"><asset:image src="mf-logo.png" alt="MF Group"/></a>
+			<a href="${createLink(uri: '/')}"><asset:image src="picchetto.jpg" alt="picchetto" width="15%" style="vertical-align:top"/>
+			<asset:image src="mf-logo.png" alt="MF Group" style="vertical-align:top;"/></a>
 			<div  style="float: right; margin: 30px;">
 				<g:if test="${!session.user}">
 					<g:link controller="login" action="index">login</g:link>
@@ -35,7 +36,7 @@
 					${session.user?.name } 
 					<g:link controller="login" action="logout">logout</g:link>
 				<div ng-controller="notificationsView">
-					<g:if test="${Notification.findAllByTarget(session.user).size() > 0}">
+					<g:if test="${!session.user.notifications.empty}">
 							you have 
 							<a href="#" ng-model="notifications"
 							ng-init="notifications = false"
@@ -47,10 +48,10 @@
 							</div>
 							<div class="modal-body">
 								<ul>
-									<g:each in="${Notification.findAllByTarget(session.user).sort{it.dateCreated}}" var="n">
+									<g:each in="${session.user.notifications.sort{it.dateCreated}}" var="n">
 										<li class="blue">
-											<small style="float: right"><g:formatDate date="${n.dateCreated}" format="dd.MM.yyyy hh.mm" /></small>
-											<a>${n.message}</a>
+											<small  style="float: right"><g:formatDate date="${n.dateCreated}" format="dd.MM.yyyy hh.mm" /></small>
+											<a href="${n.link}">${n.message}</a>
 										</li>
 									</g:each>
 								</ul>

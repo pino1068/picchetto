@@ -27,6 +27,10 @@ class Person {
 		save()
 	}
 	
+	def getNotifications(){
+		Notification.findAllByTarget(this)
+	}
+	
 	static Person randomAtWorkIn(Interval interval){
 		if(Person.count == 0)
 			throw new IllegalStateException("empty people")

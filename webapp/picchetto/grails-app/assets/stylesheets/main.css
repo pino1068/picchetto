@@ -252,6 +252,10 @@ input, select, textarea {
 	padding: 0.2em 0.4em;
 }
 
+input{
+	width:120px;
+}
+
 select {
 	padding: 0.2em 0.2em 0.2em 0;
 }

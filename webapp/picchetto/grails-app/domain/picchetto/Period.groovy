@@ -22,11 +22,17 @@ class Period {
 		new Interval(from:fromDate, to:toDate)
 	}
 	
+	String createLink(prefix){
+		prefix+"/period/search?id=$id"//person=$person.firstName&from=$fromDate.simpleFormat&to=$toDate.simpleFormat"
+	}
+	
 	static boolean existsIn(interval){
 		interval.intersectsAny(Period.all*.interval)
 	}
 	
 	static def findAllByParams(params){
+		if(params.id && !params.id.empty)
+			return [Period.get(params.id)]
 		Period.createCriteria().listDistinct {
 			List people = Person.findAllByNameIlike("%$params.person%")
 			if(params.person)

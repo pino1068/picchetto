@@ -7,6 +7,7 @@ class Notification {
 	
 	Person target
 	String message
+	String link
 	boolean sent = false
 	
 	void send(){
