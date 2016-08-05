@@ -1,6 +1,7 @@
 
 package picchetto;
 
+import static builder.PersonBuilder.*
 import grails.test.mixin.Mock
 
 import org.junit.Before
@@ -17,7 +18,7 @@ class ReportTest {
 	
 	@Test
 	public void empty() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		
 		def report = new PeopleReport(period:2016.jan)
 		
@@ -26,7 +27,7 @@ class ReportTest {
 	
 	@Test
 	public void personPeriods() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		assertEquals 1, enrico.periods.size()
 		def period = enrico.periods.first()
@@ -37,7 +38,7 @@ class ReportTest {
 	
 	@Test
 	public void oneRecord() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		def report = new PeopleReport(period:2016.jan)
 		
@@ -53,7 +54,7 @@ class ReportTest {
 	@Test
 	public void publicHoliday() {
 		new PublicHoliday(date:"6.1.2016".date,description:"Epiphany").save()
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 		def report = new PeopleReport(period:2016.jan)
 		

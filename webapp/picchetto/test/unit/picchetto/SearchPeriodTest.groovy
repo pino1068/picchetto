@@ -1,6 +1,7 @@
 
 package picchetto;
 
+import static builder.PersonBuilder.*
 import grails.test.mixin.Mock
 
 import org.junit.Before
@@ -14,8 +15,8 @@ class SearchPeriodTest {
 	@Before
 	void setup(){
 		MetaProgram.enrich()
-		Person enrico = new Person(name:"enrico").save()
-		Person matteo = new Person(name:"matteo").save()
+		Person enrico = enrico()
+		Person matteo = matteo()
 		new PeriodsGenerator(range: 2016.year).generate()
 	}
 	

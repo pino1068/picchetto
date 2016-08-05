@@ -1,6 +1,9 @@
 
 package picchetto;
 
+import static builder.PersonBuilder.*
+import grails.test.mixin.*
+
 import org.junit.Before
 import org.junit.Test
 
@@ -15,7 +18,7 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void generateWithOnePerson() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		
 		new PeriodsGenerator(range:2016.year).generate()
 		
@@ -25,7 +28,7 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void doubleGeneration() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 				
 		new PeriodsGenerator(range:2016.year).generate()
 		new PeriodsGenerator(range:2016.year).generate()
@@ -36,8 +39,8 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void picksRandom() {
-		Person matteo = new Person(name:"matteo").save()
-		Person enrico = new Person(name:"enrico").save()
+		Person matteo = matteo()
+		Person enrico = enrico()
 		
 		new PeriodsGenerator(range:2016.year).generate()
 		
@@ -51,7 +54,7 @@ class PeriodGenerationTest {
 	@Test
 	public void stressTest() {
 		(0..1000).each{
-			new Person(name:"matteo"+it).save()
+			aPerson("matteo"+it)
 		}
 		new PeriodsGenerator(range:2016.year).generate()
 				
@@ -62,7 +65,7 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void firstDayOfTheYearIsSunday() {
-		Person enrico = new Person(name:"enrico").save()
+		enrico()
 				
 		new PeriodsGenerator(range:2017.year).generate()
 				
@@ -71,8 +74,8 @@ class PeriodGenerationTest {
 	
 	@Test
 	public void withHolidays() {
-		Person enrico = new Person(name:"enrico").save()
-		Person matteo = new Person(name:"matteo").save()
+		Person enrico = enrico()
+		Person matteo = matteo()
 		matteo.addToHolidays(new Holidays(interval: 2016.year))
 		matteo.save()
 		
@@ -84,9 +87,9 @@ class PeriodGenerationTest {
 	
 	@Test(expected=IllegalStateException.class)
 	public void allOnHolidays() {
-		Person enrico = new Person(name:"enrico").save()
+		Person enrico = enrico()
 		enrico.addToHolidays(new Holidays(interval: 2016.year))
-		Person matteo = new Person(name:"matteo").save()
+		Person matteo = matteo()
 		matteo.addToHolidays(new Holidays(interval: 2016.year))
 		matteo.save()
 				

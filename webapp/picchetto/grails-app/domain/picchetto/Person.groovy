@@ -5,7 +5,7 @@ import time.Interval
 
 @ToString
 class Person {
-	String name
+	String name, email
 	
 	static hasMany = [holidays: Holidays]
 	
@@ -39,6 +39,8 @@ class Person {
 	static transients = ["holidaysInterval"]
 	
     static constraints = {
+		name()
+		email(email:true)
     }
 	
 	static mapping = {

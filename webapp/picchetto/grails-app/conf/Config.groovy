@@ -1,4 +1,7 @@
-picchetto.server.url = "http://localhost:8080/picchetto"
+picchetto{
+	server.url = "http://localhost:8080/picchetto"
+	send.emails = false
+}
 
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
@@ -119,53 +122,10 @@ log4j.main = {
            'net.sf.ehcache.hibernate'
 }
 
-//
-//grails {
-//	mail {
-//	  host = "smtp.gmail.com"
-//	  port = 587
-//	  username = "xpl.gmtech@gmail.com"
-//	  password = "craiglarman1"
-//	  from="xpl.gmtech@gmail.com"
-//	  props = [
-//		'mail.smtp.auth': "true",
-//		"mail.smtp.starttls.enable": "true",
-//		"mail.from":"xpl.gmtech@gmail.com"
-//		]
-//	  javaMailProperties = [
-//		'mail.smtp.auth': "true",
-//		"mail.smtp.starttls.enable": "true",
-//		"mail.from":"xpl.gmtech@gmail.com"
-//	  	]
-//	}
-// }
-//
-//
-//
-//grails {
-//	mail {
-//	  host = "smtp.gmail.com"
-//	  port = 465
-//	  username = "xpl.gmtech@gmail.com"
-//	  password = "craiglarman1"
-//	  props = ["mail.smtp.auth":"true",
-//			   "mail.smtp.socketFactory.port":"465",
-//			   "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-//			   "mail.smtp.socketFactory.fallback":"false"]
-//	}
-// }
-
-
 grails {
 	mail {
-	  host = "kickoff"
+	  host = "kickoff.mfti"
 	  port = 25
-	  username = "mekkano@mfgroup.ch"
-	  password = "Mihibi95"
-	  props = ["mail.smtp.auth":"true",
-			   "mail.smtp.socketFactory.port":"25",
-			   "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-			   "mail.smtp.socketFactory.fallback":"false"
-			   ]
+	  username = "tech.support@gmtech.ch"
 	}
  }

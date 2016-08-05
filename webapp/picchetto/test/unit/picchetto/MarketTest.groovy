@@ -1,5 +1,7 @@
 package picchetto
 
+import static builder.PersonBuilder.*
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +10,8 @@ import grails.test.mixin.TestFor
 
 import org.junit.Before
 import org.junit.Test
+
+import builder.PersonBuilder
 
 @TestFor(PeriodController)
 @Mock([Person, Period, Notification])
@@ -69,18 +73,11 @@ class MarketTest {
 		assertFalse Notification.last().sent
 		
 		Notification.sendThemAll()
+		
 		assertTrue Notification.first().sent
 		assertTrue Notification.last().sent
-		
 	}
 	
-	private def enrico(){person("enrico")}
-	private def matteo(){person("matteo")}
-	
-	private def person(name){
-		Person.findByName(name)?: new Person(name:name).save()
-	}
-
 	private onePeriod(Person enrico) {
 		new Period(person: enrico, interval:"1.1.2016".until("10.1.2016")).save()
 	}

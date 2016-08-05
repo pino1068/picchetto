@@ -2,19 +2,21 @@ package picchetto
 
 class Notification {
 	def mailService
+	def grailsApplication
+	Date dateCreated, lastUpdated
 	
 	Person target
 	String message
 	boolean sent = false
 	
 	void send(){
-		if(! sent)
+		if(! sent  && grailsApplication.config.picchetto.send.emails)
 			mailService?.sendMail {
-				to "matteo.besutti@gmtech.com", "giuseppe.dipierri@gmtech.com"
-				from "mekkano@mfgroup.ch"
-				subject "Picchetto notification"
-	//			body "to:"+target.name+" - message: "+message
-				body "to:"+this.target.name+" - message: "+ this.message
+				cc "matteo.besutti@gmtech.ch", "giuseppe.dipierri@gmtech.ch"
+				to this.target.email
+				from "tech.support@mfgroup.ch"
+				subject "Picchetto: notification"
+				body this.message
 			 }
 		sent=true
 		save()
@@ -22,5 +24,9 @@ class Notification {
 	
 	static void sendThemAll(){
 		Notification.findAllBySent(false)*.send()
+	}
+	
+	static mapping = {
+		autoTimestamp true
 	}
 }
