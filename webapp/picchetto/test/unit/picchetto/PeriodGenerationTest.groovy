@@ -3,12 +3,14 @@ package picchetto;
 
 import static builder.PersonBuilder.*
 import grails.test.mixin.Mock
+import grails.test.mixin.TestFor;
 
 import org.junit.Before
 import org.junit.Test
 
 
-@Mock([Person, Period, Holidays])
+@TestFor(PeriodController)
+@Mock([Person, Period, Holidays, Notification])
 class PeriodGenerationTest {
 	
 	@Before
@@ -17,11 +19,46 @@ class PeriodGenerationTest {
 	}
 	
 	@Test
+	public void onlyAdminCanGenerate() {
+		Person matteo = matteo()
+		Person enrico = session.user = enrico().makeAdmin()
+		
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals 53, Period.all.size()
+	}
+	
+	@Test
+	public void generationNotifiesNewOwners() {
+		Person matteo = matteo()
+		Person enrico = session.user = enrico().makeAdmin()
+		
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals 26, matteo.notifications.size()
+		assertEquals "http://localhost:8080/picchetto/period/search?id=2", matteo.notifications.first().link
+		assertEquals "period.create.notify.message", matteo.notifications.first().message
+	}
+	
+	@Test
+	public void "user is not allowed to generate"() {
+		Person enrico = session.user = enrico()
+				
+		params.year = "2016"
+		controller.generate()
+		
+		assertEquals "only admin can generate periods", flash.message
+		assertEquals 0, Period.all.size()
+	}
+	
+	@Test
 	public void generateWithOnePerson() {
 		Person enrico = enrico()
-		
+				
 		new PeriodsGenerator(range:2016.year).generate()
-		
+				
 		assertEquals 53, Period.all.size()
 		assertEquals enrico, Period.all.first().person
 	}

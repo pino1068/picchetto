@@ -6,7 +6,7 @@ class BootStrap {
     def init = { servletContext ->
 		def people = [
 			"Alessandro Misenta":"alessandro.misenta@gmtech.ch",
-			"Dario Zivko":"dario.zvinko@gmtech.ch",
+			"Dario Zivko":"dario.zivko@gmtech.ch",
 			"Enrico Mangano":"Enrico.Mangano@gmtech.ch",
 			"Enrico Mazzi":"Enrico.Mazzi@gmtech.ch",
 			"Gabriele Izzo":"Gabriele.Izzo@gmtech.ch",
@@ -20,9 +20,12 @@ class BootStrap {
 			"Stefano Coluccia":"Stefano.Coluccia@gmtech.ch",
 			"Valentino Decarli":"Valentino.Decarli@gmtech.ch",
 			]
+		def admin = [
+			"Enrico Mazzi"
+			]
 		if(Person.count()==0)
 			people.each{ name, email ->
-				new Person(name:name, email:email.toLowerCase()).save()
+				new Person(name:name, email:email.toLowerCase(), admin:name in admin).save()
 			}
 		
 		MetaProgram.enrich()

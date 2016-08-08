@@ -28,42 +28,62 @@ class MarketTest {
 		request.method = "POST"
 		controller.sell(Period.first())		
 		
+		assertEquals enrico(), Period.first().person
 		assertEquals "on-market", Period.first().status
 	}
 	
 	@Test
-	public void sellNotifiesOthers() {
-		matteo()
-		Period p = onePeriod(enrico())
-		
-		request.method = "POST"
-		controller.sell(p)		
-		
-		assertEquals 1, Notification.count
-		assertEquals matteo(), Notification.first().target
-		assertEquals "period.sell.notify.message", Notification.first().message
-	}
-	
-	@Test
-	public void buyNotifiesCurrentAndPreviousOwner() {
+	public void buy() {
 		session.user = matteo()
 		Period p = onePeriod(enrico())
 		
 		request.method = "POST"
-//		controller.sell(p)
+		controller.sell(p)
 		controller.buy(p)		
 		
-		assertEquals 2, Notification.count
-		
-		assertEquals enrico(), Notification.first().target
-		assertEquals "period.buy.gone.notify.message", Notification.first().message
-		
-		assertEquals matteo(), Notification.last().target
-		assertEquals "period.buy.got.notify.message",  Notification.last().message
+		assertEquals matteo(), Period.first().person
+		assertEquals "assigned", Period.first().status
 	}
 	
 	@Test
-	public void markNotificationAsSent() {
+	public void notifications() {
+		session.user = matteo()
+		Period p = onePeriod(enrico())
+		
+		request.method = "POST"
+		controller.sell(p)
+		controller.buy(p)		
+		
+		assertEquals 3, Notification.count
+		
+		assertEquals matteo(), Notification.first().target
+		assertEquals "period.sell.notify.message", Notification.first().message
+		assertEquals "http://localhost:8080/picchetto/period/search?id=1", Notification.first().link
+		
+		assertEquals enrico(), Notification.get(2).target
+		assertEquals "period.buy.gone.notify.message", Notification.get(2).message
+		assertEquals "http://localhost:8080/picchetto/period/search?id=1", Notification.get(2).link
+		
+		assertEquals matteo(), Notification.get(3).target
+		assertEquals "period.buy.got.notify.message",  Notification.last().message
+		assertEquals "http://localhost:8080/picchetto/period/search?id=1", Notification.last().link
+	}
+	
+	@Test
+	public void userNotifications() {
+		session.user = matteo()
+		Period p = onePeriod(enrico())
+				
+		request.method = "POST"
+		controller.sell(p)
+		controller.buy(p)		
+				
+		assertEquals 2, matteo().notifications.size()
+		assertEquals 1, enrico().notifications.size()
+	}
+	
+	@Test
+	public void sendNotifications() {
 		session.user = matteo()
 		Period p = onePeriod(enrico())
 		request.method = "POST"

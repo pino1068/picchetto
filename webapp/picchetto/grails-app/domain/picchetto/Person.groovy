@@ -6,6 +6,7 @@ import time.Interval
 @ToString
 class Person {
 	String name, email
+	boolean admin
 	
 	static hasMany = [holidays: Holidays]
 	
@@ -19,6 +20,15 @@ class Person {
 	
 	boolean hasHolidaysIn(Interval interval){
 		interval.intersectsAny(holidays*.interval)
+	}
+	
+	Person makeAdmin(){
+		admin = true
+		save()
+	}
+	
+	def getNotifications(){
+		Notification.findAllByTarget(this)
 	}
 	
 	static Person randomAtWorkIn(Interval interval){
@@ -40,7 +50,7 @@ class Person {
 		Person.get(new Random().nextInt(Person.count())+1)
 	}
 	
-	static transients = ["holidaysInterval"]
+	static transients = ["holidaysInterval", "notifications"]
 	
     static constraints = {
 		name()

@@ -23,7 +23,7 @@
 		<div style="margin:20px;">
 		<form action="${createLink(action: 'upload')}" method="post" id="uploadForm">
 			Content: 
-			<textarea name=content form="uploadForm">Enter text here...</textarea>
+			<textarea name=content form="uploadForm"  placeholder="paste public holidays here..."></textarea>
 			<input type="submit">
 		</form>
 		</div>
