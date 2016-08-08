@@ -36,7 +36,7 @@ class Interval {
 	
 	def getEndOfMonth(){
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(from);
+		cal.setTime(from.endOfDay());
 		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
 		cal.getTime();
 	}
@@ -81,13 +81,13 @@ class Interval {
 		def currentDays = []
 		days.each{
 			if(rule(it)){
-				ranges << new Interval(from:currentDays.empty?it:currentDays.first(), to:it)
+				ranges << new Interval(from:currentDays.empty?it:currentDays.first(), to:it.endOfDay())
 				currentDays.clear()
 			}else
 				currentDays << it
 		}
 		if(!currentDays.empty)
-			ranges <<  new Interval(from:currentDays.first(), to:currentDays.last())
+			ranges <<  new Interval(from:currentDays.first(), to:currentDays.last().endOfDay())
 		ranges
 	}
 	
