@@ -45,7 +45,7 @@ class Interval {
 		def result = new Interval(
 			from: 	max(from, other.from),
 			to: 	min(to, other.to))
-		result.positive()? result : empty()
+		result.positive()? result : newEmpty()
 	}
 	
 	def intersect(others){
@@ -91,7 +91,7 @@ class Interval {
 		ranges
 	}
 	
-	static empty(){
+	static newEmpty(){
 		new Interval()
 	}
 	

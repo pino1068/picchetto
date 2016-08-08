@@ -26,7 +26,11 @@ class Period {
 		prefix+"/period/search?id=$id"
 	}
 	
-	static boolean existsIn(interval){
+	boolean existsIn(intervals){
+		interval.intersectsAny(intervals)
+	}
+	
+	static boolean existsInPersistence(interval){
 		interval.intersectsAny(Period.all*.interval)
 	}
 	

@@ -72,7 +72,7 @@ class TimeTest {
 	
 	@Test
 	public void empty() {
-		assertEquals 0, Interval.empty().days.size()
+		assertEquals 0, Interval.newEmpty().days.size()
 	}
 	
 	@Test
@@ -90,7 +90,7 @@ class TimeTest {
 	public void jan() {
 		def range = 2016.jan
 		assertEquals "01.01.2016".date, range.from
-		assertEquals "31.01.2016".date, range.to
+		assertEquals "31.01.2016".date.endOfDay(), range.to
 		assertEquals 31, range.days.size()
 		assertEquals 10, range.weekendDays.size()
 		assertEquals 31-10, range.weekdays.size()
@@ -100,7 +100,7 @@ class TimeTest {
 	public void nov() {
 		def range = 2016.nov
 		assertEquals "01.11.2016".date, range.from
-		assertEquals "30.11.2016".date, range.to
+		assertEquals "30.11.2016".date.endOfDay(), range.to
 		assertEquals 30, range.days.size()
 		assertEquals 8, range.weekendDays.size()
 		assertEquals 30-8, range.weekdays.size()
@@ -110,7 +110,7 @@ class TimeTest {
 	public void monthOf() {
 		def range = "01.01.2016".month
 		assertEquals "01.01.2016".date, range.from
-		assertEquals "31.01.2016".date, range.to
+		assertEquals "31.01.2016".date.endOfDay(), range.to
 		assertEquals 31, range.days.size()
 		assertEquals 10, range.weekendDays.size()
 		assertEquals 31-10, range.weekdays.size()
@@ -157,11 +157,12 @@ class TimeTest {
 	@Test
 	public void intersectsAny() {
 		def within = "02.01.2016".until("10.01.2016")
+		def firstDayWithin = "1.1.2016".until("1.1.2016")
 		def out = "01.02.2016".until("10.02.2016")
 		def out2 = "01.03.2016".until("10.03.2016")
 		def partial = "20.12.2015".until("5.1.2016")
-				
-		assertTrue 2016.jan.intersectsAny([within, out, partial])
+		
+		assertTrue 2016.jan.intersectsAny([within, firstDayWithin, out, partial])
 		assertFalse 2016.jan.intersectsAny([out, out2])
 	}
 	
@@ -188,6 +189,6 @@ class TimeTest {
 	public void generateWeeks() {
 		assertEquals 53, 2016.year.weeks.size()
 		assertEquals 1.jan(2016).time, 2016.year.weeks.first().from.time
-		assertEquals 31.dec(2016).time, 2016.year.weeks.last().to.time
+		assertEquals 31.dec(2016).endOfDay().time, 2016.year.weeks.last().to.time
 	}
 }

@@ -78,10 +78,13 @@ class PeriodGenerationTest {
 	public void generateWithIntersection() {
 		Person enrico = enrico()
 		
-		new PeriodsGenerator(range:2016.year).generate()
-		new PeriodsGenerator(range:"1.1.2016".until("10.1.2016")).generate()
+//		new PeriodsGenerator(range:2016.year).generate()
+//		new PeriodsGenerator(range:"1.1.2016".until("10.1.2016")).generate()
+		new PeriodsGenerator(range:"1.1.2016".until("3.1.2016")).generate()
+		new PeriodsGenerator(range:"1.1.2016".until("1.1.2016")).generate()
 		
-		assertEquals 53, Period.all.size()
+		assertEquals 1, Period.all.size()
+//		assertEquals 53, Period.all.size()
 		assertEquals enrico, Period.all.first().person
 	}
 	
