@@ -7,6 +7,7 @@ class Notification {
 	
 	Person target
 	String message
+	String link
 	boolean sent = false
 	
 	void send(){
@@ -15,7 +16,7 @@ class Notification {
 				cc "matteo.besutti@gmtech.ch", "giuseppe.dipierri@gmtech.ch"
 				to this.target.email
 				from "tech.support@mfgroup.ch"
-				subject "Picchetto: notification"
+				subject "Picchetto: notification $id"
 				body this.message
 			 }
 		sent=true

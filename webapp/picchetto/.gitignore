@@ -6,3 +6,5 @@
 /devDb.trace.db
 /devDb.trace.db.old
 /wrapper
+/prodDb.h2.db
+/prodDb.lock.db
