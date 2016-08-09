@@ -5,6 +5,7 @@ package picchetto
 import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.transaction.Transactional
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 @Transactional(readOnly = true)
 class PeriodController {
@@ -22,7 +23,7 @@ class PeriodController {
 	def generate(){
 		if(session.user.admin){
 			def range = params.year?params.year.year:params.from.until(params.to)
-			new PeriodsGenerator(range: range).generate().each{ Period p ->
+			new PeriodsGenerator(range: range).generate().findAll{it!=null}.each{ Period p ->
 				def link = p.createLink(grailsApplication.config.picchetto.server.url)
 				new Notification(target:p.person,
 					link: link,
